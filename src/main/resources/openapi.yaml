@@ -1,0 +1,61 @@
+openapi: 3.0.1
+info:
+  description: A simple API to upload files.
+  title: File Upload API
+  version: 1.0.0
+servers:
+- description: Local server
+  url: http://localhost:5000/api
+paths:
+  /fileupload/upload:
+    post:
+      description: Upload a file to the server and save it to the specified directory.
+      operationId: uploadFile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/uploadFile_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/uploadFile_200_response'
+          description: File uploaded successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                example: No file was uploaded.
+                type: string
+          description: Bad request. No file was uploaded or an error occurred.
+      summary: Upload a file
+      x-content-type: multipart/form-data
+      x-accepts: application/json
+components:
+  schemas:
+    ErrorResponse:
+      properties:
+        message:
+          description: Error message.
+          example: No file was uploaded.
+          type: string
+      type: object
+    uploadFile_request:
+      properties:
+        file:
+          description: The file to be uploaded.
+          format: binary
+          type: string
+      type: object
+    uploadFile_200_response:
+      example:
+        FilePath: C:\Path\To\UploadedFiles\example.txt
+      properties:
+        FilePath:
+          description: The path where the uploaded file is stored.
+          example: C:\Path\To\UploadedFiles\example.txt
+          type: string
+      type: object

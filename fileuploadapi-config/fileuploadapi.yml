@@ -1,0 +1,14 @@
+resilience4j: 
+  retry: 
+    configs: 
+      default: 
+        maxRetryAttempts: 3
+        retryExceptions: java.lang.Exception
+        waitDuration: 5000
+    instances: 
+      mainService: 
+        baseConfig: default
+spring: 
+  jackson: 
+    serialization: 
+      WRITE_DATES_AS_TIMESTAMPS: false
